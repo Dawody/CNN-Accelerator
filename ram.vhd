@@ -14,7 +14,7 @@ END ENTITY ram;
 
 ARCHITECTURE syncrama OF ram IS
 
-	TYPE ram_type IS ARRAY(0 TO 65791) OF BYTE;
+	TYPE ram_type IS ARRAY(0 TO 131071) OF BYTE;
 	SIGNAL ram : ram_type;
 	BEGIN
 		PROCESS(clk) IS
