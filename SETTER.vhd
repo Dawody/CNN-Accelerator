@@ -43,23 +43,8 @@ BEGIN
 	PROCESS(ENB,RST)
 	BEGIN
 
-		IF(rising_EDGE(ENB))THEN
-			ACK	<='0';
-	
-			ROW_INC	<= W + ROW_INC;
-			ROW_CNT <= ROW_CNT + 1;
-			IF(ROW_CNT(9 downto 0) = W)THEN
-				ROW_CNT <= X"00"&"00";
-				COL_INC	<= COL_INC + 1;
-				ROW_INC	<= COL_INC + 1;
-				COL_CNT <= COL_CNT + 1;
 
-				IF(COL_CNT(9 downto 0) = W)THEN
-					ACK <= '1';
-				END IF;
-
-			END IF;
-		elsIF(RST='1')THEN
+		IF(RST='1')THEN
 			COL_CNT	<=X"00"&"00";	
 			ROW_CNT <=X"00"&"00";
 			ACK	<='0';
@@ -83,6 +68,22 @@ BEGIN
 					W	<= '0' & ((WINDOW5(9 DOWNTO 1))+ 2);
 				END IF;
 			END IF;
+		elsIF(rising_EDGE(ENB))THEN
+				
+			ROW_INC	<= W + ROW_INC;
+			ROW_CNT <= ROW_CNT + 1;
+			IF(ROW_CNT(9 downto 0) = W)THEN
+				ROW_CNT <= X"00"&"00";
+				COL_INC	<= COL_INC + 1;
+				ROW_INC	<= COL_INC + 1;
+				COL_CNT <= COL_CNT + 1;
+
+				IF(COL_CNT(9 downto 0) = W)THEN
+					ACK <= '1';
+				END IF;
+
+			END IF;
+
 		
 		END IF;
 	END PROCESS;
