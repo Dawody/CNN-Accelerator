@@ -10,7 +10,6 @@ USE WORK.PKG.ALL;
 ENTITY SETTER IS
 	PORT(
 		RST	: IN STD_LOGIC;
-		START	: IN STD_LOGIC; --THIS SIGNAL HELP ME TO INITIALIZE SOME SIGNALS
 		FILTER	: IN STD_LOGIC;	--(0)=3 & (1)=5
 		STRIDE	: IN STD_LOGIC;	--(0)=1 & (1)=2
 		ENB	: IN STD_LOGIC;	--IT JUST A SIGNAL TO PREPARE THE NEXT ADDRESS. (GETTER WORKS ON THE RISING EDGE OF "ENB" SIGNAL)
@@ -44,7 +43,7 @@ BEGIN
 
 
 
-	PROCESS(ENB,START,RST)
+	PROCESS(ENB,RST)
 	BEGIN
 
 		IF(falling_EDGE(RST))THEN
@@ -74,52 +73,17 @@ BEGIN
 			ROW_INC <= "0000000" & X"00" & "00";
 
 
-
---		END IF;
-
---		elsIF(RISING_EDGE(START))THEN
---			IF(FILTER='0')THEN
---				IF(STRIDE='0')THEN
---					COL_INC	<= ("0000000" & (WINDOW3 +1));
---					W	<= (WINDOW3 +1);
---				ELSIF(STRIDE='1')THEN
---					COL_INC	<= "00000000" & ((WINDOW3(9 DOWNTO 1))+ 2);
---					W	<= '0' & ((WINDOW3(9 DOWNTO 1))+ 2);
---				END IF;
---			ELSIF(FILTER='1')THEN
---				IF(STRIDE='0')THEN
---					COL_INC	<= "0000000" & (WINDOW5 + 1);
---					W	<= WINDOW5 + 1;
---				ELSIF(STRIDE='1')THEN
---					COL_INC <= "00000000" & ((WINDOW5(9 DOWNTO 1))+ 2);
---					W	<= '0' & ((WINDOW5(9 DOWNTO 1))+ 2);
---				END IF;
---			END IF;
---
---			ROW_INC <= "0000000" & X"00" & "00";
---
-
-
---		END IF;
-
----------------------------------
-
-
 		elsIF(RISING_EDGE(ENB))THEN
 			ROW_INC	<= W + ROW_INC;
 			ROW_CNT <= ROW_CNT + 1;
 			IF(ROW_CNT(9 downto 0) = W)THEN
---				CARRY <= '1';
 				ROW_CNT <= X"00"&"00";
-
---				CARRY <= '0';
 				COL_INC	<= COL_INC + 1;
 				ROW_INC	<= COL_INC + 1;
 				COL_CNT <= COL_CNT + 1;
 
 				IF(COL_CNT(9 downto 0) = W)THEN
 					ACK <= '1';
---					ROW_CNT <=X"00"&"00";
 				END IF;
 
 			END IF;
