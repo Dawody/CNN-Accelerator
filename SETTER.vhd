@@ -45,11 +45,13 @@ BEGIN
 	PROCESS(ENB)
 	BEGIN
 
-		IF(falling_EDGE(ENB) AND FLAG /='1')THEN
+	IF(falling_EDGE(ENB))THEN
+		IF(FLAG /='1')THEN	
 			COL_CNT	<=X"00"&"00";	
 			ROW_CNT <=X"00"&"00";
 			ACK	<='0';
 			FLAG	<='1';
+			ROW_INC <= "0000000" & X"00" & "00";
 
 
 			IF(FILTER='0')THEN
@@ -70,10 +72,9 @@ BEGIN
 				END IF;
 			END IF;
 
-			ROW_INC <= "0000000" & X"00" & "00";
 
 
-		elsIF(RISING_EDGE(ENB))THEN
+		ELSE
 			ROW_INC	<= W + ROW_INC;
 			ROW_CNT <= ROW_CNT + 1;
 			IF(ROW_CNT(9 downto 0) = W)THEN
@@ -88,6 +89,7 @@ BEGIN
 
 			END IF;
 		END IF;
+	END IF;
 	END PROCESS;
 
 
