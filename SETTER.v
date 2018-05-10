@@ -1,6 +1,6 @@
 //
 // Verilog description for cell SETTER, 
-// Thu May 10 05:12:46 2018
+// Thu May 10 05:45:32 2018
 //
 // LeonardoSpectrum Level 3, 2017a.2 
 //
@@ -17,7 +17,7 @@ module SETTER ( FILTER, STRIDE, ENB, ADRS, ACK ) ;
     wire ROW_CNT_0, nx16, W_0, ROW_CNT_9, ROW_CNT_8, ROW_CNT_7, ROW_CNT_6, 
          ROW_CNT_5, ROW_CNT_4, ROW_CNT_3, ROW_CNT_2, ROW_CNT_1, nx42, nx60, nx78, 
          nx1495, nx96, nx114, nx1497, nx132, nx150, nx1499, nx168, nx182, W_1, 
-         W_2, nx222, nx232, nx234, W_7, nx244, NOT__2440, nx308, nx326, nx338, 
+         W_2, nx222, nx232, nx234, W_7, nx244, NOT__4676, nx308, nx326, nx338, 
          nx344, nx362, nx374, nx380, nx398, nx416, nx422, nx438, nx448, nx454, 
          nx470, nx480, nx486, nx502, nx512, nx518, nx534, nx542, COL_CNT_0, 
          nx562, COL_CNT_9, COL_CNT_8, COL_CNT_7, COL_CNT_6, COL_CNT_5, COL_CNT_4, 
@@ -194,7 +194,7 @@ module SETTER ( FILTER, STRIDE, ENB, ADRS, ACK ) ;
         nx2151)) ;
     xnor2 ix543 (.Y (nx542), .A0 (ADRS[16]), .A1 (nx2133)) ;
     nand02 ix2134 (.Y (nx2133), .A0 (ADRS[15]), .A1 (nx512)) ;
-    inv01 ix251 (.Y (NOT__2440), .A (nx1900)) ;
+    inv01 ix251 (.Y (NOT__4676), .A (nx1900)) ;
     inv01 ix245 (.Y (nx244), .A (nx1858)) ;
     inv02 ix2140 (.Y (nx2141), .A (ENB)) ;
     inv02 ix2142 (.Y (nx2143), .A (ENB)) ;
@@ -275,8 +275,8 @@ module SETTER ( FILTER, STRIDE, ENB, ADRS, ACK ) ;
     inv02 ix2186 (.Y (nx2187), .A (nx2193)) ;
     inv02 ix2188 (.Y (nx2189), .A (nx2193)) ;
     inv02 ix2190 (.Y (nx2191), .A (nx2195)) ;
-    inv02 ix2192 (.Y (nx2193), .A (NOT__2440)) ;
-    inv02 ix2194 (.Y (nx2195), .A (NOT__2440)) ;
+    inv02 ix2192 (.Y (nx2193), .A (NOT__4676)) ;
+    inv02 ix2194 (.Y (nx2195), .A (NOT__4676)) ;
     inv04 ix2196 (.Y (nx1907), .A (W_2)) ;
 endmodule
 
