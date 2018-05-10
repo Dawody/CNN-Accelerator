@@ -10,10 +10,13 @@ vsim work.setter
 # Loading work.pkg
 # Loading work.setter(setter_arch)
 add wave sim:/setter/*
+force -freeze sim:/setter/RST 1 0
 force -freeze sim:/setter/FILTER 0 0
 force -freeze sim:/setter/STRIDE 0 0
 force -freeze sim:/setter/START 0 0
 force -freeze sim:/setter/ENB 0 0
+run
+force -freeze sim:/setter/RST 0 0
 run
 force -freeze sim:/setter/START 1 0
 force -freeze sim:/setter/ENB 0 0
