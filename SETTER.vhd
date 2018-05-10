@@ -45,7 +45,7 @@ BEGIN
 	PROCESS(ENB)
 	BEGIN
 
-	IF(falling_EDGE(ENB))THEN
+	IF(rising_EDGE(ENB))THEN
 		IF(FLAG /='1')THEN	
 			COL_CNT	<=X"00"&"00";	
 			ROW_CNT <=X"00"&"00";
