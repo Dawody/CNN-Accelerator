@@ -5,16 +5,22 @@ USE WORK.PKG.ALL;
 
 ENTITY ram IS
 	PORT(
-		clk : IN std_logic;
-		rd_wt  : IN std_logic;
-		ram_address : IN  ADDRESS;
-		datain  : IN  BYTE;
-		dataout : OUT five_bytes);
+		clk		: IN std_logic;
+		rd_wt		: IN std_logic;
+		ram_address	: IN  ADDRESS;
+		datain		: IN  BYTE;
+		dataout		: OUT five_bytes);
 END ENTITY ram;
 
 ARCHITECTURE syncrama OF ram IS
+	--256*256	: INPUT
+	--5*5		: FILTER
+	--255*255	: OUTPUT
+	--486		: EXCESS
+	----------
+	--131072BIT	:MEMORY_SIZE
 
-	TYPE ram_type IS ARRAY(0 TO 131071) OF BYTE;
+	TYPE ram_type IS ARRAY(0 TO 131071) OF BYTE;	
 	SIGNAL ram : ram_type;
 	BEGIN
 		PROCESS(clk) IS

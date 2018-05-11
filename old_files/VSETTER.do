@@ -25,13 +25,15 @@ vsim work.SETTER
 # Loading work.dff_p
 # Loading work.mux2
 add wave sim:/SETTER/*
-force -freeze sim:/SETTER/FILTER 0 0
-force -freeze sim:/SETTER/STRIDE 0 0
-force -freeze sim:/SETTER/ENB 0 0
+force -freeze sim:/setter/RST 0 0
 run
-# ** Warning: (vsim-3116) Problem reading symbols from linux-gate.so.1 : can not open ELF file.
-noforce sim:/SETTER/ENB
-force -freeze sim:/SETTER/ENB 1 0, 0 {50 ps} -r 100
+force -freeze sim:/setter/FILTER 0 0
+force -freeze sim:/setter/STRIDE 0 0
+force -freeze sim:/setter/ENB 0 0
+force -freeze sim:/setter/RST 1 0
 run
-
-
+force -freeze sim:/setter/RST 0 0
+run
+noforce sim:/setter/ENB
+force -freeze sim:/setter/ENB 1 0, 0 {50 ps} -r 100
+run
