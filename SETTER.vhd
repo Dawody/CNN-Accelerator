@@ -8,10 +8,12 @@ USE WORK.PKG.ALL;
 ENTITY SETTER IS
 	PORT(
 		RST	: IN STD_LOGIC;
+		CLK	: IN STD_LOGIC;
 		FILTER	: IN STD_LOGIC;	--(0)=3 & (1)=5
 		STRIDE	: IN STD_LOGIC;	--(0)=1 & (1)=2
 		ENB	: IN STD_LOGIC;	--IT JUST A SIGNAL TO PREPARE THE NEXT ADDRESS. (GETTER WORKS ON THE RISING EDGE OF "ENB" SIGNAL)
 		ADRS	:OUT ADDRESS;
+		ENDD	:OUT STD_LOGIC;
 		ACK	:OUT STD_LOGIC
 		
 
@@ -28,7 +30,8 @@ SIGNAL	ROW_CNT	:STD_LOGIC_VECTOR(9 DOWNTO 0);		--COUNTER FOR THE (ROW_COL) MOVE
 SIGNAL	WINDOW	:STD_LOGIC_VECTOR(9 DOWNTO 0);		--window size
 SIGNAL	WINDOW3	:STD_LOGIC_VECTOR(9 DOWNTO 0);
 SIGNAL	WINDOW5	:STD_LOGIC_VECTOR(9 DOWNTO 0);
-
+SIGNAL	FLAG	:STD_LOGIC;
+SIGNAL	FLAG2	:STD_LOGIC;
 BEGIN
 
 
@@ -40,7 +43,7 @@ BEGIN
 
 
 
-	PROCESS(ENB,RST)
+	PROCESS(ENB,RST,CLK)
 	BEGIN
 
 
@@ -49,6 +52,9 @@ BEGIN
 			ROW_CNT <=X"00"&"00";
 			ACK	<='0';
 			ROW_INC <= "0000000" & X"00" & "00";
+			ENDD	<='0';
+			FLAG	<='0';
+			FLAG2	<='0';
 
 
 			IF(FILTER='0')THEN
@@ -68,28 +74,45 @@ BEGIN
 					W	<= '0' & ((WINDOW5(9 DOWNTO 1))+ 2);
 				END IF;
 			END IF;
-		elsIF(rising_EDGE(ENB))THEN
-				
-			ROW_INC	<= W + ROW_INC;
-			ROW_CNT <= ROW_CNT + 1;
-			IF(ROW_CNT(9 downto 0) = W)THEN
-				ROW_CNT <= X"00"&"00";
-				COL_INC	<= COL_INC + 1;
-				ROW_INC	<= COL_INC + 1;
-				COL_CNT <= COL_CNT + 1;
 
-				IF(COL_CNT(9 downto 0) = W)THEN
-					ACK <= '1';
+
+		elsIF(rising_EDGE(CLK))THEN
+			IF(FLAG2='1')THEN
+				FLAG2	<= '0';
+				ACK	<= '0';
+			ELSIF(FLAG='1')THEN
+--NEW				
+				FLAG2	<= '1';
+				FLAG	<= '0';
+--NEW				
+				ACK	<= '1';
+				--ACK	<= '0'; --NEW
+			ELSIF(ENB='1')THEN
+				--ACK	<='1';	--NEW
+				FLAG	<= '1';	
+				ROW_INC	<= W + ROW_INC;
+				ROW_CNT <= ROW_CNT + 1;
+	
+	
+				IF(ROW_CNT(9 downto 0) = W-1)THEN
+					ROW_CNT <= X"00"&"00";
+					COL_INC	<= COL_INC + 1;
+					ROW_INC	<= COL_INC + 1;
+					COL_CNT <= COL_CNT + 1;
+	
+					IF(COL_CNT(9 downto 0)=127)THEN
+						ENDD	<= '1';
+					END IF;
+		
 				END IF;
 
-			END IF;
-
-		
+			END IF;	
 		END IF;
 	END PROCESS;
 
 
-	ADRS <= COL_INC;
+	ADRS <= ROW_INC+65561;
+--65561
 	
 
 
