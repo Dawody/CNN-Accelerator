@@ -88,8 +88,8 @@ BEGIN
 				ACK	<= '1';
 				--ACK	<= '0'; --NEW
 			ELSIF(ENB='1')THEN
-				--ACK	<='1';	--NEW
-				FLAG	<= '1';	
+				ACK	<='1';	--NEW
+				FLAG2	<= '1';	
 				ROW_INC	<= W + ROW_INC;
 				ROW_CNT <= ROW_CNT + 1;
 	
