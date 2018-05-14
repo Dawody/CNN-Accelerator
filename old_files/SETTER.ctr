@@ -1,0 +1,3 @@
+set input2register 100.000000
+set register2register 100.000000
+set register2output 100.000000

@@ -1,0 +1,14 @@
+load_library tsmc035_typ
+read -technology "tsmc035_typ"  { /home/ayman/cnn/CNN-Accelerator/PKG.vhd }
+read -technology "tsmc035_typ"  { /home/ayman/cnn/CNN-Accelerator/SETTER.vhd }
+pre_optimize -common_logic -unused_logic -boundary -xor_comparator_optimize 
+pre_optimize -extract 
+set register2register 100.000000
+set input2register 100.000000
+set register2output 100.000000
+optimize .work.SETTER.SETTER_ARCH -target tsmc035_typ -macro -auto -effort quick -hierarchy auto 
+optimize_timing .work.SETTER.SETTER_ARCH 
+report_area -cell_usage -all_leafs 
+report_delay  -num_paths 1 -critical_paths -clock_frequency
+set novendor_constraint_file FALSE
+auto_write SETTER.v
